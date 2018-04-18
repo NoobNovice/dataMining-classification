@@ -9,7 +9,6 @@ class DecisionTree:
     __tech_table = []
     __test_table = []
     __label = []
-    # __att_check = []
     __root = None
 
     def __init__(self, level, threshold, sheet_index):
@@ -129,17 +128,6 @@ class DecisionTree:
         send_table.pop(att)
         return send_table
 
-    def __cropAtt__(self, table):
-        send_table = []
-        if len(self.__att_check) == 0:
-            return table
-        else:
-            for col in range(0, len(table)):
-                for att_head in self.__att_check:
-                    if table[col][0] != att_head:
-                        send_table.append(table[col])
-            return send_table
-
     def __generateTree__(self, cur_level, cur_node, table):
         # root case
         c_arr = []
@@ -229,3 +217,28 @@ class DecisionTree:
         else:
             print("label is " + str(view_node.label))
         return
+
+    def accuracy(self):
+        hit = 0
+        miss = 0
+        for row in range(1, len(self.__test_table[0])):
+            print("time " + str(row))
+            test_case = []
+            for col in range(0, len(self.__test_table)):
+                att = []
+                att.append(self.__tech_table[col][0])
+                att.append(self.__test_table[col][row])
+                test_case.append(att)
+            result = self.prediction(test_case, self.__root)
+            print(result)
+            print(test_case[12][1])
+            if result == test_case[12][1]:
+                hit += 1
+            else:
+                miss += 1
+            print("hit " + str(hit))
+            print("miss " + str(miss))
+            print("\n")
+        acc = (hit/(hit+miss))*100
+        print(acc)
+        return acc

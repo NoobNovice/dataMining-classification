@@ -2,7 +2,7 @@ import xlrd
 from DecisionTree import DecisionTree as Dt
 
 tree = Dt(5, 0, 0)
-tree.show_tree(tree.get_root())
+tree.accuracy()
 
 # data = xlrd.open_workbook("data_set.xls")
 # sheet = data.sheets()
