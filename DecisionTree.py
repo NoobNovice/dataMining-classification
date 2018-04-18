@@ -14,7 +14,7 @@ class DecisionTree:
     def __init__(self, level, threshold, sheet_index):
         self.__level = level
         self.__threshold = threshold
-        data = xlrd.open_workbook("data_set.xls")
+        data = xlrd.open_workbook("Ddata_set.xls")
         sheet = data.sheets()
 
         # create tech and test table

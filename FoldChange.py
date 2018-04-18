@@ -26,16 +26,17 @@ class FoldChange:
                 att.append(rsheet[0].cell(row, col).value)
             self.__table.append(att)
 
-        # preprocess data
-        for col in range(0, 10):
-            bound_list = self.__bound__(self.__table[col])
-            for row in range(1, self.__rows):
-                if self.__table[col][row] >= bound_list[0] and self.__table[col][row] <= bound_list[1]:
-                    self.__table[col][row] = 1
-                elif self.__table[col][row] >= bound_list[1] and self.__table[col][row] <= bound_list[2]:
-                    self.__table[col][row] = 2
-                else:
-                    self.__table[col][row] = 3
+
+        # # preprocess data
+        # for col in range(0, 10):
+        #     bound_list = self.__bound__(self.__table[col])
+        #     for row in range(1, self.__rows):
+        #         if self.__table[col][row] >= bound_list[0] and self.__table[col][row] <= bound_list[1]:
+        #             self.__table[col][row] = 1
+        #         elif self.__table[col][row] >= bound_list[1] and self.__table[col][row] <= bound_list[2]:
+        #             self.__table[col][row] = 2
+        #         else:
+        #             self.__table[col][row] = 3
 
         # random row and write in new file
         for count in range(0, 10):
@@ -51,7 +52,7 @@ class FoldChange:
             for row in range(0, self.__rows):
                 for col in range(0, self.__cols):
                     wsheet.write(row, col, self.__table[col][row])
-        wdatafile.save("data_set.xls")
+        wdatafile.save("Ndata_set.xls")
         return
 
     def __bound__(self, att_arr):
