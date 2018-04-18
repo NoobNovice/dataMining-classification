@@ -9,6 +9,7 @@ class DecisionTree:
     __tech_table = []
     __test_table = []
     __label = []
+    # __att_check = []
     __root = None
 
     def __init__(self, level, threshold, sheet_index):
@@ -33,6 +34,8 @@ class DecisionTree:
                 att.append(sheet[0].cell(row, col).value)
             self.__test_table.append(att)
 
+        # for att in range(0, len(self.__tech_table) - 1):
+        #     self.__att_check.append(False)
         self.__label = self.__classifiedAtt__(len(self.__tech_table) - 1, self.__tech_table)
         self.__root = Node(None, None, None)
         self.__generateTree__(0, self.__root, self.__tech_table)
@@ -66,8 +69,8 @@ class DecisionTree:
         result = 0
         sum = 0
         for temp in range(len(arr)):
-            arr[temp] += 1
             sum += arr[temp]
+            arr[temp] += 1
 
         for value in arr:
             result += (-value / sum * math.log(value / sum, 2))
@@ -112,8 +115,8 @@ class DecisionTree:
 
     @staticmethod
     def __cropTable__(att, value, table):
-        send_table = []
         # head table
+        send_table = []
         for time in range(len(table)):
             arr = []
             send_table.append(arr)
@@ -125,6 +128,17 @@ class DecisionTree:
                     send_table[col].append(table[col][row])
         send_table.pop(att)
         return send_table
+
+    def __cropAtt__(self, table):
+        send_table = []
+        if len(self.__att_check) == 0:
+            return table
+        else:
+            for col in range(0, len(table)):
+                for att_head in self.__att_check:
+                    if table[col][0] != att_head:
+                        send_table.append(table[col])
+            return send_table
 
     def __generateTree__(self, cur_level, cur_node, table):
         # root case
@@ -142,7 +156,7 @@ class DecisionTree:
             path_list = self.__classifiedAtt__(att_max, table)
             for path in path_list:
                 child_node = Node(cur_node, None, path)
-                t = self.__cropTable__(att_max, path, table)
+                t =self.__cropTable__(att_max, path, table)
                 c_arr.append(child_node)
                 self.__generateTree__(cur_level + 1, child_node, t)
             cur_node.child = c_arr

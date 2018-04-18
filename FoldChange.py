@@ -1,5 +1,6 @@
 import xlrd
 import xlwt
+import copy
 import random as rm
 
 class FoldChange:
@@ -25,6 +26,17 @@ class FoldChange:
                 att.append(rsheet[0].cell(row, col).value)
             self.__table.append(att)
 
+        # preprocess data
+        for col in range(0, 10):
+            bound_list = self.__bound__(self.__table[col])
+            for row in range(1, self.__rows):
+                if self.__table[col][row] >= bound_list[0] and self.__table[col][row] <= bound_list[1]:
+                    self.__table[col][row] = 1
+                elif self.__table[col][row] >= bound_list[1] and self.__table[col][row] <= bound_list[2]:
+                    self.__table[col][row] = 2
+                else:
+                    self.__table[col][row] = 3
+
         # random row and write in new file
         for count in range(0, 10):
             wsheet = wdatafile.add_sheet("sheet" + str(count))
@@ -41,5 +53,17 @@ class FoldChange:
                     wsheet.write(row, col, self.__table[col][row])
         wdatafile.save("data_set.xls")
         return
+
+    def __bound__(self, att_arr):
+        send_bound = []
+        arr = copy.copy(att_arr)
+        arr.pop(0)
+        low = min(arr)
+        high = max(arr)
+        range_arr = (high - low) / 3
+        for i in range(0, 3):
+            low += range_arr
+            send_bound.append(low)
+        return send_bound
 
 FoldChange()
