@@ -14,7 +14,7 @@ class DecisionTree:
     def __init__(self, level, threshold, sheet_index):
         self.__level = level
         self.__threshold = threshold
-        data = xlrd.open_workbook("Ddata_set.xls")
+        data = xlrd.open_workbook("dataprocessN1.xls")
         sheet = data.sheets()
 
         # create tech and test table
@@ -231,8 +231,8 @@ class DecisionTree:
                 test_case.append(att)
             result = self.prediction(test_case, self.__root)
             print(result)
-            print(test_case[12][1])
-            if result == test_case[12][1]:
+            print(test_case[7][1])
+            if result == test_case[7][1]:
                 hit += 1
             else:
                 miss += 1
